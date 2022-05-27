@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%n%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level - %msg</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <appender name="FileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>./logs/log_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <Pattern>%n%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level - %msg</Pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="FileAppender"/>
+        <appender-ref ref="STDOUT" />
+    </root>
+    
+    <logger name="junitOut" level="INFO">
+      <appender-ref ref="STDOUT" />
+  </logger> 
+</configuration>

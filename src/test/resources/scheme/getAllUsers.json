@@ -1,0 +1,17 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "goRest Get All users",
+	"description": "http://gorest.co.in/public/v2/users/",
+	"type": "array",
+	"items": [{
+		"description": "List of users",
+		"type": "object",
+		"properties": {
+			"id": {"type": "integer"},
+			"name": {"type": "string"},
+			"gender": {"type": "string", "enum": ["male", "female"]},
+			"status": {"type": "string", "enum": ["active", "inactive"]}
+		},
+		"required": ["id", "name", "gender", "status"]
+	}]	
+}
