@@ -3,12 +3,8 @@ package gorest.co.in.testscases;
 import gorest.co.in.steps.OperationsWithUsersSteps;
 import gorest.co.in.tests.TestsBase;
 import gorest.co.in.tests.dto.UserRequest;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
+import lombok.Builder;
+import org.testng.annotations.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,15 +15,14 @@ public class UsersTestsCases extends TestsBase {
 	private UserRequest defaultUser;
 	private UserRequest updUser;
 
-	@BeforeClass
-	public static void beforeClass() throws Exception {
-		PATH_TO_HTTPS_SERVER = getNodeValue("domain");
-		SUFFIX_GET_LIST_OF_USERS = getNodeValue("endpoint");
-		BEARER_TOKEN = tokenDecrypt();
-	}
+	@BeforeMethod
+	@Parameters({"domain", "endpoint", "secretKey", "iVector", "token"})
+	public void setUp(String domain, String endpoint, String secretKey, String iVector, String token) throws Exception {
+		PATH_TO_HTTPS_SERVER = domain;
+		SUFFIX_GET_LIST_OF_USERS = endpoint;
+		BEARER_TOKEN = tokenDecrypt(secretKey.getBytes(), iVector.getBytes(), token.getBytes());
 
-	@Before
-	public void setUp() {
+
 		defaultUser = new UserRequest.Builder()
 				.setName("alexshegera")
 				.setEmail("ns872h837hs.87h872h32@abc.com")
@@ -128,10 +123,11 @@ public class UsersTestsCases extends TestsBase {
 		controllers.getLoggerController().log("Test \"{}\" completed.", NAME_OF_CURRENT_TEST);
 	}
 
-	@Rule
+
+	/*@Rule
 	public TestWatcher testWatcher = new TestWatcher() {
 	    protected void failed(Throwable e, Description description) {
 	     controllers.getLoggerController().log().error(description.getDisplayName() + " failed: {}", e.getMessage());
 	    }
-	  };
+	  };*/
 }

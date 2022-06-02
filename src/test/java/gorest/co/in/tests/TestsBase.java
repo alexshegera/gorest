@@ -30,27 +30,19 @@ public class TestsBase extends IOException {
 	protected static String SUFFIX_GET_LIST_OF_USERS;
 	protected static String PATH_TO_HTTPS_SERVER;
 
-	protected static String BEARER_TOKEN = "Bearer 53832 ...."; //secret
+	protected static String BEARER_TOKEN = "Bearer 538325ae525d5e775e5e6e08936799694dae7ef3764878b89b69024a9029b7a0"; //secret
 
 	protected static Boolean debugMode = false;
 	protected Controllers controllers = new Controllers(new LoggerControllerImpl(debugMode));
 
 	public static void main(String[] args) throws Exception {
-		PATH_TO_HTTPS_SERVER = getNodeValue("domain");
-		SUFFIX_GET_LIST_OF_USERS = getNodeValue("endpoint");
 
-		BEARER_TOKEN = tokenDecrypt();
-
-		JUnitCore junit = new JUnitCore();
-		junit.run(Tests.class);
 	}
 
-	protected static String tokenDecrypt() throws Exception {
-		byte[] secretKey = getNodeValue("secretKey").getBytes(); // 24 bytes
+	protected static String tokenDecrypt(byte[] secretKey, byte[] iVector, byte[] token) throws Exception {
 		SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey, "TripleDES");
-		byte[] iv = getNodeValue("iVector").getBytes(); // 8 bytes
-		IvParameterSpec ivSpec = new IvParameterSpec(iv);
-		byte[] encryptedMessageBytes = Base64.getDecoder().decode(getNodeValue("token"));
+		IvParameterSpec ivSpec = new IvParameterSpec(iVector);
+		byte[] encryptedMessageBytes = Base64.getDecoder().decode(token);
 		Cipher decryptCipher = Cipher.getInstance("TripleDES/CBC/PKCS5Padding");
 		decryptCipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivSpec);
 		byte[] decryptedMessageBytes = decryptCipher.doFinal(encryptedMessageBytes);

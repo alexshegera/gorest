@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="gorest tests">
+  <test thread-count="5" name="Test">
+      <parameter name="domain" value="https://gorest.co.in"></parameter>
+      <parameter name="endpoint" value="/public/v2/users"></parameter>
+      <parameter name="secretKey" value="0mng65v8jf ....."></parameter>
+      <parameter name="iVector" value="6jk5 ......"></parameter>
+      <parameter name="token" value="4tOE+16OW6iZ9 ......."></parameter>
+      <classes>
+        <class name="gorest.co.in.testscases.UsersTestsCases"></class>
+    </classes>
+  </test>
+</suite>
